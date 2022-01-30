@@ -48,4 +48,18 @@ export const Container = styled.section`
             border-radius: 1.2rem;
         }
     }
+     @media only screen and (max-width: 1000px) {
+         .accordion{
+             width: 95%;
+             padding: .5rem;
+             border-radius: 1rem;
+         }
+
+         .accordion__button{
+             font-size: 1rem !important;
+             border-radius: 1rem !important;
+             padding: 1rem !important;
+
+         }
+     }
 `;

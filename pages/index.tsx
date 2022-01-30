@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Header from '../src/components/Header'
-import Nav from '../src/components/NavBar'
+import NavBar from '../src/components/NavBar'
 import { GlobalContainer } from '../styles/GlobalComponents'
 import Vector from '../public/assets/Vector.svg'
 import Image from 'next/image'
@@ -9,10 +9,22 @@ import Vantagens from '../src/components/Vantagens'
 import QuemPode from '../src/components/QuemPode'
 import Help from '../src/components/Help'
 import Footer from '../src/components/Footer'
+import NavMobile from '../src/components/NavMobile'
+import { useEffect, useState } from 'react'
+
 const Home: NextPage = () => {
+
+  const [isMobile, setIsMobile] = useState(false)
+
+  
+  useEffect(()=>{
+    window.innerWidth < 1000 ? setIsMobile(true) : setIsMobile(false)
+  }, [isMobile])
+  console.log(isMobile);
+
   return (
     <GlobalContainer>
-      <Nav />
+      {isMobile ? <NavMobile /> : <NavBar />}
       <Header />
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 100"><path fill="#6AD59D" fill-opacity="1" d="M0,0L120,5.3C240,11,480,21,720,64C960,107,1200,181,1320,218.7L1440,256L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
       <ComoFunciona />
@@ -21,6 +33,8 @@ const Home: NextPage = () => {
       <QuemPode />
       <Help />
       <Footer />
+      {/* 
+      */}
     </GlobalContainer>
   )
 }

@@ -45,7 +45,7 @@ const Help: React.FC = () => {
     ]
 
     return (
-        <Container>
+        <Container id='sectionFour'>
             <Title>Dúvidas frequentes</Title>
             <Description>Separamos alguns assuntos que você pode ficar em dúvida</Description>
             <Accordion>

@@ -18,9 +18,22 @@ export default createGlobalStyle`
         -webkit-font-smoothing: antialiased;
         scroll-behavior: smooth;
         background-color: #fff;
+        /* overflow: hidden; */
+
+        
     }
     a {
         color: inherit;
         text-decoration: none;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        h1{
+            font-size: 1.8rem !important;
+        }
+        p{
+            font-size: 1rem !important;
+        }
+
     }
 `

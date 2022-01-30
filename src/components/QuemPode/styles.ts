@@ -45,6 +45,12 @@ export const CardsContainer = styled.div`
     align-items: flex-start;
     width: 100%;
     margin: 2rem 0;
+
+    @media only screen and (max-width: 1000px) {
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem 0;
+    }
 `;
 
 export const Card = styled.div`
@@ -72,6 +78,20 @@ export const Card = styled.div`
 
     h1, p {
         width: 100%;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        width: 90%;
+        margin: 1rem 0;
+
+        h1{
+            font-size: 1.4rem !important;
+            line-height: 1.4;
+            margin-bottom: .5rem;
+        }
+        p{
+            font-size: .9rem !important;
+        }
     }
 
 `;

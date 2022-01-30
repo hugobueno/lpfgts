@@ -32,6 +32,16 @@ export const GridRow = styled.div`
     height: 100%;
     max-width: 1200px;
     /* background-color: #f00; */
+
+    @media only screen and (max-width: 1000px) {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        padding: 1rem;
+        img{
+            width: 60% !important;
+
+        }
+    }
 `;
 
 export const CardItem = styled.div`
@@ -48,6 +58,8 @@ export const CardItem = styled.div`
     justify-content: center;
     align-items: center;
     padding: 1rem;
+
+
     svg{
         font-size: 4rem;
     }
@@ -59,6 +71,23 @@ export const CardItem = styled.div`
 
     h1, p{
         width: 90%;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        grid-template-columns: auto auto;
+        height: 8rem;
+        margin: 1rem 0;
+        h1{
+            font-size: 1.2rem !important;
+            line-height: 1.2;
+        }
+
+        p{
+            font-size: .9rem !important;
+        }
+        svg{
+            font-size: 2rem;
+        }
     }
     
 `;

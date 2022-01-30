@@ -8,16 +8,18 @@ import { Button, Description, Title } from '../../../styles/GlobalComponents';
 import { ButtonDown, Card, CardsContainer, Container, DataContainer } from './styles';
 
 const ComoFunciona: React.FC = () => {
-    const {colors} = useContext(ThemeContext)
+    const { colors } = useContext(ThemeContext)
 
 
     return (
-        <Container>
+        <Container id='sectionOne' >
             <DataContainer>
-                <Title fontSize={'4rem'}>Como funciona?</Title>
-                <Description>O processo de contratação é feito 100% por você e em
-                    poucos minutos seu saque é aprovado e disponibilizado na sua conta.
-                </Description>
+                <div className='header_data'>
+                    <Title fontSize={'4rem'}>Como funciona?</Title>
+                    <Description>O processo de contratação é feito 100% por você e em
+                        poucos minutos seu saque é aprovado e disponibilizado na sua conta.
+                    </Description>
+                </div>
                 <CardsContainer>
                     <Card>
                         <BsShieldLock />

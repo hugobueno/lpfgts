@@ -6,9 +6,10 @@ export const NavContainer = styled.nav`
     height: 100%;
     display: flex;
     min-height: 8rem;
-    /* background-color: #f0f; */
+    /* background-color: ${props => props.theme.colors.background}; */
     justify-content: center;
     align-items: center;
+    border-bottom: .1rem solid ${props => props.theme.colors.border};
 `;
 
 export const NavBar = styled.div`
@@ -18,8 +19,12 @@ export const NavBar = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2rem;
+    /* padding: 0 2rem; */
     max-width: 1260px;
+
+    @media only screen and (max-width: 1000px) {
+        display: none;
+    }
 `;
 
 export const NavItem = styled.div`
@@ -39,7 +44,7 @@ export const NavItem = styled.div`
         margin: 0;
 
         li{
-            margin: 0 .8rem;
+            /* margin: 0 .2rem; */
         }
     }
 
@@ -53,6 +58,7 @@ interface ILinkButton {
             quaternary: string,
             text_button: string,
             text_light: string,
+            text: string,
         }
     }
 }
@@ -70,32 +76,20 @@ const animateLinkButton = keyframes`
 `;
 
 
-export const LinkButton = styled.button`
+export const LinkButton = styled.a`
     text-decoration: none;
-    color: ${(props: ILinkButton) => props.active ? props.theme.colors.text_light : props.theme.colors.text_button};;
+    color: ${(props: ILinkButton) => props.active ? props.theme.colors.text : props.theme.colors.text_button};
     font-size: 1.2rem;
     font-weight: 600;
     transition: all 0.3s ease-in-out;
-    background-color: ${(props: ILinkButton) => props.active ? '#fff' : 'transparent'};
+    background-color: ${(props: ILinkButton) => props.active ? props.theme.colors.primary : 'transparent'};
     cursor: pointer;
-    padding: 1rem 2rem;
+    padding: .5rem 1rem;
     border-radius: 1rem;
     position: relative;
     overflow: hidden !important;
     z-index: 1;
     border: none;
-
-    ::before{
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: ${(props: ILinkButton) => props.active ? props.theme.colors.primary : 'transparent'};
-        left: 0;
-        top: 0;
-        transform: translateX(60%) rotate(-45deg) scale(2);
-        z-index: -1;
-        animation:    ${(props: ILinkButton)=> props.active? animateLinkButton: ''} .35s ease-in-out forwards;
-    }
+    margin: 0 .5rem;
 
 `;

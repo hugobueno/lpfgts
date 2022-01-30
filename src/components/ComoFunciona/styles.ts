@@ -28,6 +28,19 @@ export const DataContainer = styled.div`
         justify-content: center;
         align-items: center;
     }
+
+    @media only screen and (max-width: 1000px) {
+        justify-content: center;
+        align-items: center;
+
+        .header_data{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 `;
 
 export const CardsContainer = styled.div`
@@ -35,6 +48,10 @@ export const CardsContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
+
+    @media only screen and (max-width: 1000px) {
+        flex-direction: column;
+    }
 `;
 
 export const Card = styled.div`
@@ -56,6 +73,10 @@ export const Card = styled.div`
         top: 0;
         left: 0;
         transform: translateY(-40%);
+    }
+
+    @media only screen and (max-width: 1000px) {
+        font-size: 5rem !important;
     }
 `;
 

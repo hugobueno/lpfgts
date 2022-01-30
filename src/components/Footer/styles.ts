@@ -66,4 +66,18 @@ export const DataContainer = styled.div`
             margin: 0 1rem;
         }
     }
+
+    @media only screen and (max-width: 1000px) {
+        .social_icons{
+            a{
+                font-size: 1.8rem;
+                margin: 0 .5rem;
+            }
+        }
+
+        .f_contact{
+            display: flex;
+            flex-direction: column;
+        }
+    }
 `;

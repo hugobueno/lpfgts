@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const PhotoContainer = styled.div`
-     width: 32rem;
+    width: 32rem;
     height: auto;
     display: flex;
     position: relative;
@@ -69,6 +69,21 @@ export const PhotoContainer = styled.div`
         width: 32rem;
         height: 100%;
         border-radius: 2rem;
+    }
+
+    @media screen and (max-width: 1000px){
+        width: 12rem;
+        margin: 5rem 0;
+
+        .shape_circle{
+            width: 100%;
+        }
+
+        .shape_square{
+            width: 8rem;
+            height: 6rem;
+        }
+
     }
 
     

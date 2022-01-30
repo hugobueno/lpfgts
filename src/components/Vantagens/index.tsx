@@ -10,7 +10,7 @@ import { ThemeContext } from 'styled-components';
 const Vantagens: React.FC = () => {
     const { colors } = useContext(ThemeContext);
     return (
-        <Container>
+        <Container id='sectionTwo'>
             <Title fontSize={'4rem'}>Vantagens pra você!</Title>
             <Description fontSize={'1.6rem'}>Use seu dinheiro como quiser, sem comprometer sua renda mensal:
                 o desconto é feito somente uma vez ao ano, diretamente no saldo do FGTS

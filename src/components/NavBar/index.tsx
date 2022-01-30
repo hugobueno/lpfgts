@@ -9,7 +9,8 @@ const Nav: React.FC = () => {
         primary: true,
         secondary: false,
         ternary: false,
-        quaternary: false
+        quaternary: false,
+        quinary: false,
     });
 
     return (
@@ -19,49 +20,66 @@ const Nav: React.FC = () => {
                 <NavItem>
                     <ul>
                         <li>
-                            <Link href="/">
+                            <Link href="#">
                                 <LinkButton
                                     onClick={() => setActiveButton({
                                         primary: true,
                                         secondary: false,
                                         ternary: false,
-                                        quaternary: false
+                                        quaternary: false,
+                                        quinary: false,
                                     })}
                                     active={activeButton.primary} >Inicio</LinkButton>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/">
+                            <Link href="#sectionOne">
                                 <LinkButton onClick={() => setActiveButton({
                                     primary: false,
                                     secondary: true,
                                     ternary: false,
-                                    quaternary: false
-                                })} active={activeButton.secondary} >O que é?</LinkButton>
+                                    quaternary: false,
+                                    quinary: false,
+                                })} active={activeButton.secondary} >Como funciona?</LinkButton>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/">
+                            <Link href="#sectionTwo">
                                 <LinkButton
-                                 onClick={() => setActiveButton({
-                                    primary: false,
-                                    secondary: false,
-                                    ternary: true,
-                                    quaternary: false
-                                })}
-                                active={activeButton.ternary}>Como contratar</LinkButton>
+                                    onClick={() => setActiveButton({
+                                        primary: false,
+                                        secondary: false,
+                                        ternary: true,
+                                        quaternary: false,
+                                        quinary: false
+                                    })}
+                                    active={activeButton.ternary}>Vantagens</LinkButton>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/">
+                            <Link href="#sectionThree">
                                 <LinkButton
-                                 onClick={() => setActiveButton({
-                                    primary: false,
-                                    secondary: false,
-                                    ternary: false,
-                                    quaternary: true
-                                })}
-                                active={activeButton.quaternary}>Ajuda</LinkButton>
+                                    onClick={() => setActiveButton({
+                                        primary: false,
+                                        secondary: false,
+                                        ternary: false,
+                                        quaternary: true,
+                                        quinary: false
+                                    })}
+                                    active={activeButton.quaternary}>Quem pode?</LinkButton>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="#sectionFour">
+                                <LinkButton
+                                    onClick={() => setActiveButton({
+                                        primary: false,
+                                        secondary: false,
+                                        ternary: false,
+                                        quaternary: false,
+                                        quinary: true
+                                    })}
+                                    active={activeButton.quinary}>Dúvidas</LinkButton>
                             </Link>
                         </li>
                     </ul>
