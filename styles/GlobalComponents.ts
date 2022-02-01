@@ -41,7 +41,7 @@ export const Description = styled.p`
     color: ${(props: ITitle) => props.color || '#000'};
     line-height: 1.5;
     margin: .5rem 0;
-    width: 90%;
+    width: 95%;
 `;
 
 interface IButton{
@@ -54,7 +54,7 @@ export const Button = styled.button`
     font-size: 1.3rem;
     font-weight: 900 !important;
     transition: all 0.3s ease-in-out;
-    padding: 1.3rem 3.2rem;
+    padding: 1.5rem 3.2rem;
     border-radius: .8rem;
     cursor: pointer;
     margin: 1rem 0;
@@ -69,7 +69,7 @@ export const Button = styled.button`
     }
 
     :hover{
-        background-color: ${props => props.theme.colors.ternary};
-        color: ${props => props.theme.colors.text_light};
+        background-color: ${props => props.theme.colors.text};
+        color: ${props => props.theme.colors.primary};
     }
 `;
