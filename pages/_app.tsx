@@ -1,15 +1,15 @@
 import type { AppProps } from 'next/app'
-import { ThemeProvider } from 'styled-components'
 import GlobalStyles from '../styles/GlobalStyles'
-import light from '../styles/themes/light'
-
+import Toast from '../src/contexts/ToastContext'
+import Theme from '../src/contexts/modeContext'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={light}>
+    <Theme>
       <GlobalStyles />
-      <Component {...pageProps} />
-    </ThemeProvider>
+      <Toast>
+        <Component {...pageProps} />
+      </Toast>
+    </Theme>
   )
 }
-
 export default MyApp

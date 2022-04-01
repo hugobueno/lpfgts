@@ -20,10 +20,10 @@ const Help: React.FC = () => {
         {
             title: 'Quais as vantagens do empréstimo com garantia de FGTS ?',
             message: `
-                O empréstimo com garantia no FGTS permite a antecipação
-                do saldo do FGTS, sem precisar esperar o mês do seu aniversário 
+            O empréstimo com garantia no FGTS permite a antecipação do 
+            saldo do FGTS, sem precisar esperar o mês do seu aniversário 
             pra resgatar. Você consegue antecipar seus próximos 
-            saque-aniversários e recebe todo o dinheiro na hora.
+            saque-aniversários e o dinheiro fica disponível em minutos.
             `
         },
         {
@@ -47,7 +47,7 @@ const Help: React.FC = () => {
     return (
         <Container id='sectionFour'>
             <Title>Dúvidas frequentes</Title>
-            <Description>Separamos alguns assuntos que você pode ficar em dúvida</Description>
+            <Description>Separamos alguns assuntos que possam esclarecer suas dúvidas</Description>
             <Accordion>
                 {
                     arrayHelp.map((item, index) => {

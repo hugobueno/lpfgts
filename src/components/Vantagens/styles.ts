@@ -5,7 +5,6 @@ export const Container = styled.section`
     height: 100%;
     min-height: 70vh;
     /* background-color: #ff0; */
-    background-color: #fff;
     max-width: 1260px;
     display: flex;
     flex-direction: column;
@@ -30,13 +29,13 @@ export const GridRow = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
-    max-width: 1200px;
-    /* background-color: #f00; */
+    max-width: 1260px;
+    padding: 0 2rem;
 
-    @media only screen and (max-width: 1000px) {
+    @media only screen and (max-width: 1024px) {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
-        padding: 1rem;
+        padding: .5rem;
         img{
             width: 60% !important;
 
@@ -47,17 +46,18 @@ export const GridRow = styled.div`
 export const CardItem = styled.div`
     width: 100%;
     height: 10rem;
-    background-color: ${props => props.theme.colors.border};
+    /* background-color: ${props => props.theme.colors.border}; */
     margin: 2rem 0;
     border-radius: 2rem;
-    background: linear-gradient(89.43deg, rgba(106, 213, 157, 0.2) 0.29%, #F4F4F4 61.21%, #F4F4F4 99.41%);
+    background: linear-gradient(89.43deg, ${props => props.theme.colors.primary + 29} 0.29%, ${props => props.theme.colors.background} 61.21%, ${props => props.theme.colors.background} 99.41%);
     box-shadow: 0px 4px 21px rgba(0, 0, 0, 0.04);  
     display: grid;
     grid-template-columns: 6rem 1fr;
     grid-gap: 1rem;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding: 1rem;
+    color: ${props => props.theme.colors.text};
 
 
     svg{
@@ -73,10 +73,11 @@ export const CardItem = styled.div`
         width: 90%;
     }
 
-    @media only screen and (max-width: 1000px) {
+    @media only screen and (max-width: 1024px) {
         grid-template-columns: auto auto;
-        height: 8rem;
+        height: auto;
         margin: 1rem 0;
+        min-height: 8rem;
         h1{
             font-size: 1.2rem !important;
             line-height: 1.2;

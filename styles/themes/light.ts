@@ -5,7 +5,7 @@ const light = {
         secundary: '#216DFA',
         ternary: '#8A6EF0',
         quaternary: '#00b894',
-        background: '#f2f2f2',
+        background: '#fefefe',
         background_gray: '#F4F4F4',
         text: '#272727',
         text_button: '#272727',

@@ -4,20 +4,23 @@ import { ItensContainer, NavBarContainer } from './styles';
 import Hamburger from 'hamburger-react'
 import { ThemeContext } from 'styled-components';
 import Image from 'next/image';
-import Logo from '/public/assets/logo.png';
+import Logo from '/public/assets/logo_virtuos_cred.svg';
+import LogoLight from '/public/assets/logo_virtuos_cred_light.svg';
 import Link from 'next/link';
 import { BsWhatsapp } from 'react-icons/bs';
+import { ToggleButton } from '../../../styles/GlobalComponents';
+import { FiToggleLeft, FiToggleRight } from 'react-icons/fi';
+import { useTheme } from '../../contexts/modeContext';
 
 const NavMobile: React.FC = () => {
     const [isOpen, setOpen] = useState(false)
-    const { colors } = useContext(ThemeContext)
+    const { colors, title } = useContext(ThemeContext)
+    const { mode, setMode } = useTheme()
 
-    // disable scroll on body
     const disableScroll = () => {
         document.body.style.overflow = 'hidden';
     }
 
-    // enable scroll on body
     const enableScroll = () => {
         document.body.style.overflow = 'auto';
     }
@@ -32,7 +35,15 @@ const NavMobile: React.FC = () => {
 
     return (
         <NavBarContainer>
-            <Image src={Logo} />
+            <div className='logo'>
+                {!isOpen ? (
+                    <Image width={100} objectFit={'contain'} src={title === 'light' ? Logo : LogoLight} />
+                ) : (
+                    <ToggleButton
+                        onClick={setMode}>{mode === 'light' ? <FiToggleLeft /> : <FiToggleRight  color={colors.primary} />}
+                    </ToggleButton>
+                )}
+            </div>
             <Hamburger direction='right' size={40} color={colors.primary} toggled={isOpen} toggle={setOpen} />
             <ItensContainer isOpen={isOpen}>
                 <Link href='#'>
@@ -65,6 +76,7 @@ const NavMobile: React.FC = () => {
                         setOpen(!open)
                     }}>Dúvidas</a>
                 </Link>
+
                 <div className='f_contact_item'>
                     <BsWhatsapp />
                     <p>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.footer`
-    background-color: ${props => props.theme.colors.background_gray};
+    background-color: ${props => props.theme.title === 'light'? props.theme.colors.background_gray: props.theme.colors.primary};
     padding: 2rem;
     display: flex;
     justify-content: center;
@@ -17,6 +17,8 @@ export const DataContainer = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
+    color: ${props => props.theme.colors.text};
+
     .f_header{
         width: 100%;
         display: flex;
@@ -67,7 +69,7 @@ export const DataContainer = styled.div`
         }
     }
 
-    @media only screen and (max-width: 1000px) {
+    @media only screen and (max-width: 1024px) {
         .social_icons{
             a{
                 font-size: 1.8rem;

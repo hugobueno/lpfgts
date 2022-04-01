@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { Button, Description, Title } from '../../../styles/GlobalComponents';
+import { Button, ButtonLink, Description, Title } from '../../../styles/GlobalComponents';
 
 import { CardItem, Container, GridRow } from './styles';
 import Image from 'next/image';
 import ImageCalc from '/public/assets/calc.svg';
 import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 import { ThemeContext } from 'styled-components';
+import Link from 'next/link';
 
 const Vantagens: React.FC = () => {
     const { colors } = useContext(ThemeContext);
@@ -17,7 +18,7 @@ const Vantagens: React.FC = () => {
             </Description>
             <GridRow>
                 <div>
-                    <Image src={ImageCalc} />
+                    <Image alt="imagem em desenho de uma pessoa se apoiando em uma calculadora" src={ImageCalc} />
                 </div>
                 <div>
 
@@ -52,7 +53,9 @@ const Vantagens: React.FC = () => {
                 </div>
             </GridRow>
             <div className='row-center'>
-            <Button color={colors.text} backgroundColor={colors.primary}>Contrate agora <FiArrowRight /></Button>
+                <Link href={'/simulacao'}>
+                <ButtonLink aria-label='contrate agora' color={colors.text} backgroundColor={colors.primary}>Contrate agora <FiArrowRight /></ButtonLink>
+                </Link>
             </div>
         </Container>
     )

@@ -13,14 +13,15 @@ export const Container = styled.section`
     justify-content: center;
     align-items: center;
     grid-gap: 1rem;
-    padding: 1rem;
+    padding: 2rem;
 
-    @media only screen and (max-width: 1000px) {
+    @media only screen and (max-width: 1024px) {
         grid-template-areas: 'photo' 'data';
 
         grid-template-columns: 1fr;
         grid-template-rows: auto auto;
         padding: 1rem;
+        grid-gap: 0rem;
     }
 `;
 
@@ -34,7 +35,7 @@ export const DataContainer = styled.div`
     justify-content: center;
     line-height: 5 !important;
 
-    @media only screen and (max-width: 1000px) {
+    @media only screen and (max-width: 1024px) {
         align-items: center;
     }
 
@@ -45,6 +46,6 @@ export const PhotoContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: auto;
     grid-area: 'photo';
 `;

@@ -5,26 +5,34 @@ export const NavContainer = styled.nav`
     width: 100%;
     height: 100%;
     display: flex;
-    min-height: 8rem;
+    min-height: 7rem;
     /* background-color: ${props => props.theme.colors.background}; */
     justify-content: center;
     align-items: center;
     border-bottom: .1rem solid ${props => props.theme.colors.border};
-`;
+    @media only screen and (max-width: 1024px) {
+        display: none;
+    }
+    `;
 
 export const NavBar = styled.div`
+    padding: 0 2rem;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    /* padding: 0 2rem; */
     max-width: 1260px;
 
-    @media only screen and (max-width: 1000px) {
-        display: none;
+    .logo{
+        width: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90%;
     }
+    
 `;
 
 export const NavItem = styled.div`
@@ -79,7 +87,7 @@ const animateLinkButton = keyframes`
 export const LinkButton = styled.a`
     text-decoration: none;
     color: ${(props: ILinkButton) => props.active ? props.theme.colors.text : props.theme.colors.text_button};
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
     transition: all 0.3s ease-in-out;
     background-color: ${(props: ILinkButton) => props.active ? props.theme.colors.primary : 'transparent'};

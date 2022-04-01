@@ -1,147 +1,233 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
-
-import { AutorizationContainer, Container, FormContainer, GridForm, StepContainer, StepImage } from '../styles/simulacaoStyles';
+import { Container, GridForm, HeaderSimulation, StepContainer, StepImage } from '../styles/simulacaoStyles';
 import Image from 'next/image';
-import Logo from '/public/assets/logo.png';
-import { Button, Description, Title } from '../styles/GlobalComponents';
-import Step1 from '/public/assets/step1.svg';
-import Step2 from '/public/assets/step2.svg';
-import Step3 from '/public/assets/step3.svg';
-import Link from 'next/link';
-import { Formik, Field, Form, FormikHelpers } from 'formik';
-import { FiArrowRight } from 'react-icons/fi';
-import { ThemeContext } from 'styled-components';
+import { Description, Title } from '../styles/GlobalComponents';
+import { FiArrowLeft, FiLock } from 'react-icons/fi';
+import api from '../src/configs/api';
+import { useToast } from '../src/contexts/ToastContext';
+import { stepsToSimulation } from '../src/configs/stepsSimularion';
+import AddressForm, { IAddress } from '../src/components/FormAddress';
+import FormPessoal, { IPessoa } from '../src/components/FormPessoal';
+import FormPessoalBank, { IBank } from '../src/components/FormPessoalBank';
+import FormSearch, { IClient } from '../src/components/FormSearch';
+import FormNotAuthorizated from '../src/components/FormNotAuthorizated';
+import FormSimulations from '../src/components/FormSimulations';
+import FormLinkFormalization from '../src/components/FormLinkFormalization';
+import Congratulation from '../src/components/Congratulation';
+import HelpAuthFGTS from '../src/components/HelpAuthFGTS';
 
-interface Values {
-  cpf: string;
-  phone: string;
+export interface ISimulation {
+  prazo: number,
+  codigo_tabela_financiamento: string,
+  descricao_tabela_financiamento: string,
+  codigo_produto: string,
+  descricao_produto: string,
+  despesas: [],
+  parcelas: [
+    {
+      num_parcela: number,
+      valor_parcela: number,
+      data_vencimento: string
+    }
+  ],
+  taxa_apropriacao_anual: number,
+  taxa_apropriacao_mensal: number,
+  taxa_cet_anual: number,
+  taxa_cet_mensal: number,
+  taxa_referencia_anual: number,
+  taxa_referencia_mensal: number,
+  valor_bruto: number,
+  valor_cliente: number,
+  valor_financiado: number,
+  valor_solicitado: number,
+  valor_iof: number,
+  valor_liquido: number,
+  tipo_simulacao: 'ValorSolicitado'
+}
+
+export const activeStep = {
+  STEP_INITIAL: 0,
+  STEP_NOT_AUTHORIZATE: 1,
+  STEP_AVAILABLE: 2,
+  STEP_ADDRESS: 3,
+  STEP_PESSOAL_DATA: 4,
+  STEP_PESSOAL_BANK: 5,
+  STEP_FORMALIZATION: 6
 }
 
 const pages: NextPage = () => {
-  const { colors } = useContext(ThemeContext);
-  const [step, setStep] = React.useState(0);
+  const [step, setStep] = React.useState(activeStep.STEP_INITIAL);
+  const { setModal } = useToast()
 
-  const arrayData = [
-    {
-      title: 'Agora faltam somente três passos...',
-      description: 'leva menos de 3 min para concluir a simulação.',
-      image: Step1,
-    },
-    {
-      title: `
-      Precisamos que
-      autorize um dos nossos
-      bancos no app FGTS
-      `,
-      description: 'siga nosso guia para autorizar um banco.',
-      image: Step2,
-    },
-    {
-      title: `
-      Você tem saldo
-      pré-aprovado disponível
-      `,
-      description: 'agora é so escolher o valor que deseja sacar.',
-      image: Step3,
-    },
+  const [dataClient, setDataClient] = useState<IClient>({
+    cpf: '',
+    phone: '',
+  })
+  const [simulations, setSimulations] = useState<ISimulation>()
+  const [clientAddress, setClientAddress] = useState<IAddress>()
+  const [clientPessoalData, setClientPessoalData] = useState<IPessoa>()
+  const [clientDataBank, setClientDataBank] = useState<IBank>()
+  const [linkFormalization, setLinkFormalization] = useState<string>()
+  const [congratulation, setCongratulation] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(false)
+  const [helpAuth, setHelpAuth] = useState(false)
 
-  ]
-
-
-  const FormCapsuled = () => {
-    return (
-      <FormContainer>
-        <Title>Antecipe seu saque FGTS</Title>
-        <Description>Preencha os dados abaixo para fazer a sua solicitação.</Description>
-        <div className='form-container'>
-          {/* hello copilot*/}
-
-          <Formik
-            validate={values => {
-              const errors: any = {};
-              if (!values.cpf) {
-                errors.cpf = 'Ops!, Campo obrigatório';
-              }
-              if (!values.phone) {
-                errors.phone = 'Ops!, Campo obrigatório';
-              }
-
-              return errors;
-            }}
-            initialValues={{
-              cpf: '',
-              phone: '',
-            }}
-            onSubmit={(
-              values: Values,
-              { setSubmitting, }: FormikHelpers<Values>
-            ) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-                setStep(step + 1);
-              }, 500);
-            }}
-          >
-            {({ errors, touched }) => (
-              <Form>
-                <label htmlFor="firstName">Digite seu cpf</label>
-                <Field id="cpf" name="cpf" placeholder="cpf" />
-                <span>{errors.cpf && errors.cpf}</span>
-                <label htmlFor="phone">Seu celular</label>
-                <Field id="phone" name="phone" placeholder="celular" />
-                <span>{errors.phone && errors.phone}</span>
-
-                <div>
-                  <Link href="/simulacao/resultado">
-                    <a >Politica de privacidade e termos de uso</a>
-                  </Link>
-                </div>
-                <Button color={colors.text} backgroundColor={colors.primary}>Aceitar e Continuar <FiArrowRight /></Button>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      </FormContainer>
-    )
+  const handleCreateOrder = async (dataBank: IBank) => {
+    try {
+      setModal({ type: 'loading', title: 'Gerando contrato', mesage: 'estamos gerando seu contrato digital' })
+      const { data, status } = await api.post('/order', {
+        cpf: dataClient.cpf,
+        phone: dataClient.phone,
+        nome: clientPessoalData?.nome,
+        nascimento: clientPessoalData?.nascimento,
+        mae: clientPessoalData?.mae,
+        documento_rg: clientPessoalData?.documento_rg,
+        banco: dataBank?.banco,
+        agencia: dataBank?.agencia,
+        conta: dataBank?.conta,
+        tipo: dataBank?.tipo.value,
+        logradouro: clientAddress?.logradouro,
+        numero: clientAddress?.numero,
+        bairro: clientAddress?.bairro,
+        cidade: clientAddress?.cidade,
+        uf: clientAddress?.uf,
+        cep: clientAddress?.cep,
+      }, {
+        validateStatus: () => true,
+        timeout: 200000
+      })
+      setIsDisabled(false)
+      if (status === 200) {
+        setModal({ type: 'success', title: 'Contato Gerado', mesage: 'Seu contrato esta pronto' })
+        setCongratulation(true)
+        setLinkFormalization(data)
+        setStep(activeStep.STEP_FORMALIZATION)
+        return
+      }
+      if (status === 400) {
+        setModal({ type: 'warning', title: data.error, mesage: 'verifique e tente novamente' })
+        return
+      }
+      if (status === 504) {
+        setModal({ type: 'warning', title: 'Serviço Indisponível', mesage: 'tentando reconectar...' })
+        return
+      }
+    } catch (error) {
+      setModal({
+        type: 'error',
+        title: 'Falha na criacao da proposta',
+        mesage: 'Tente novamente'
+      })
+    }
   }
 
-  const StepAuthorizate = () => {
-    return (
-      <AutorizationContainer>
-        <div>
-          <Button onClick={() => setStep(step + 1)} color={colors.text} backgroundColor={colors.primary}>Já Autorizei <FiArrowRight /></Button>
-          <Button color={colors.text_light} backgroundColor={colors.text}>Acesso guia <FiArrowRight /></Button>
-        </div>
-        <p>
-          Caso precise de ajuda para autorizar um Banco,
-          preparamos um passo a passo <strong>simplificado para você</strong>.
-        </p>
-      </AutorizationContainer>
-    )
+  const handleGoBack = () => {
+    if (step === activeStep.STEP_NOT_AUTHORIZATE) setStep(activeStep.STEP_INITIAL)
+    if (step === activeStep.STEP_AVAILABLE) setStep(activeStep.STEP_INITIAL)
+    if (step === activeStep.STEP_ADDRESS) setStep(activeStep.STEP_AVAILABLE)
+    if (step === activeStep.STEP_PESSOAL_DATA) setStep(activeStep.STEP_ADDRESS)
+    if (step === activeStep.STEP_PESSOAL_BANK) setStep(activeStep.STEP_PESSOAL_DATA)
   }
 
   return (
-    <Container>
-      <StepContainer>
-        <div>
-          <Image src={Logo} />
-        </div>
-        <StepImage>
-          <Image src={arrayData[step].image} />
-          <Title>{arrayData[step].title}</Title>
-          <Description>{arrayData[step].description}</Description>
-        </StepImage>
-
-      </StepContainer>
-      <GridForm>
-        {step === 0 && <FormCapsuled />}
-        {step === 1 && <StepAuthorizate />}
-
-      </GridForm>
-    </Container>
+    <>
+      <Container>
+        <StepContainer>
+          <StepImage>
+            <Image src={stepsToSimulation[step].image} />
+            <Title>{stepsToSimulation[step].title}</Title>
+            <Description>{stepsToSimulation[step].description}</Description>
+          </StepImage>
+        </StepContainer>
+        <GridForm>
+          <HeaderSimulation >
+            {step !== activeStep.STEP_INITIAL && step !== activeStep.STEP_FORMALIZATION ? (
+              <button
+                onClick={(event) => {
+                  event.preventDefault()
+                  handleGoBack()
+                }}
+                className='btn_go_back'><FiArrowLeft /></button>
+            ) : null}
+            <span className='secure_ambient'><FiLock /> Ambiente Seguro</span>
+          </HeaderSimulation>
+          {step === 0 && (
+            <FormSearch
+              setClient={(value) => setDataClient(value)}
+              setSimulations={(value) => {
+                setSimulations(value)
+              }}
+              setStep={(value) => {
+                setStep(value)
+              }}
+            />
+          )}
+          {step === activeStep.STEP_NOT_AUTHORIZATE && (
+            <FormNotAuthorizated
+              setStepFgts={setHelpAuth}
+              setStep={(value) => {
+                setStep(value)
+              }}
+              setSimulations={(value) => {
+                setSimulations(value)
+              }}
+              dataClient={dataClient}
+            />
+          )}
+          {step === activeStep.STEP_AVAILABLE && (
+            <FormSimulations
+              dataClient={dataClient}
+              simulation={simulations}
+              setStep={(value) => {
+                setStep(value)
+              }}
+              setSimulation={(value) => {
+                setSimulations(value)
+              }}
+            />
+          )}
+          {step === activeStep.STEP_ADDRESS &&
+            <AddressForm
+              setCurrencyAddress={(value) => {
+                setClientAddress(value)
+              }}
+              setStep={(value) => {
+                value && setStep(activeStep.STEP_PESSOAL_DATA)
+              }}
+            />
+          }
+          {step === activeStep.STEP_PESSOAL_DATA &&
+            <FormPessoal
+              setClientPessoalData={(value) => {
+                setClientPessoalData(value)
+              }}
+              setStep={(value) => {
+                value && setStep(activeStep.STEP_PESSOAL_BANK)
+              }}
+            />
+          }
+          {step === activeStep.STEP_PESSOAL_BANK &&
+            <FormPessoalBank
+              lock={isDisabled}
+              setStep={(value, dataBank) => {
+                setIsDisabled(true)
+                setClientDataBank(dataBank)
+                handleCreateOrder(dataBank)
+              }}
+            />
+          }
+          {step === activeStep.STEP_FORMALIZATION &&
+            <FormLinkFormalization link={linkFormalization || ''} nome={clientPessoalData?.nome || ''}>
+            </FormLinkFormalization>
+          }
+        </GridForm>
+      </Container>
+      <Congratulation setOpen={(valeu) => {
+        setCongratulation(valeu)
+      }} open={congratulation} />
+      <HelpAuthFGTS open={helpAuth} setOpen={(value) => setHelpAuth(value)} />
+    </>
   )
 }
-
 export default pages;
