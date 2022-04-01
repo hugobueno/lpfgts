@@ -40,7 +40,7 @@ const QuemPode: React.FC = () => {
           </Card>
         </CardsContainer>
         <div className="row-right">
-          <Link href={'/simulacao'}>
+          <Link passHref href={'/simulacao'}>
           <ButtonLink aria-label='contrate agora' color={colors.text} backgroundColor={colors.primary}>Contrate agora <FiArrowRight /></ButtonLink>
           </Link>
         </div>

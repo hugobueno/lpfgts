@@ -56,8 +56,10 @@ export const activeStep = {
   STEP_FORMALIZATION: 6
 }
 
-const pages: NextPage = () => {
-  const [step, setStep] = React.useState(activeStep.STEP_INITIAL);
+const Simulation: NextPage = () => {
+
+  const [step, setStep] = useState<number>(activeStep.STEP_INITIAL || 0)
+
   const { setModal } = useToast()
 
   const [dataClient, setDataClient] = useState<IClient>({
@@ -135,7 +137,7 @@ const pages: NextPage = () => {
       <Container>
         <StepContainer>
           <StepImage>
-            <Image src={stepsToSimulation[step].image} />
+            <Image alt={stepsToSimulation[step].title} src={stepsToSimulation[step].image} />
             <Title>{stepsToSimulation[step].title}</Title>
             <Description>{stepsToSimulation[step].description}</Description>
           </StepImage>
@@ -230,4 +232,4 @@ const pages: NextPage = () => {
     </>
   )
 }
-export default pages;
+export default Simulation;

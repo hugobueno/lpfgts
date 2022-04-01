@@ -80,7 +80,7 @@ const HelpAuthFGTS: React.FC<IProps> = ({ open, setOpen }) => {
                     <Title color={'#222'}>{step + 1} - {stepsList[step].title}</Title>
                     <Description color={'#222'}>{stepsList[step].description}</Description>
                 </div>
-                <Image src={stepsList[step].image} />
+                <Image alt={stepsList[step].title} src={stepsList[step].image} />
                 {isNext ? (
                     <Footer>
                         <div>

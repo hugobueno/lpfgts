@@ -37,7 +37,7 @@ const NavMobile: React.FC = () => {
         <NavBarContainer>
             <div className='logo'>
                 {!isOpen ? (
-                    <Image width={100} objectFit={'contain'} src={title === 'light' ? Logo : LogoLight} />
+                    <Image alt='Logo da empresa virtuos cred' width={100} objectFit={'contain'} src={title === 'light' ? Logo : LogoLight} />
                 ) : (
                     <ToggleButton
                         onClick={setMode}>{mode === 'light' ? <FiToggleLeft /> : <FiToggleRight  color={colors.primary} />}
@@ -46,31 +46,31 @@ const NavMobile: React.FC = () => {
             </div>
             <Hamburger direction='right' size={40} color={colors.primary} toggled={isOpen} toggle={setOpen} />
             <ItensContainer isOpen={isOpen}>
-                <Link href='#'>
+                <Link passHref href='#'>
                     <a onClick={() => {
                         enableScroll()
                         setOpen(!open)
                     }}>Inicio</a>
                 </Link>
-                <Link href='#sectionOne'>
+                <Link passHref href='#sectionOne'>
                     <a onClick={() => {
                         enableScroll()
                         setOpen(!open)
                     }}>Como funciona?</a>
                 </Link>
-                <Link href='#sectionTwo'>
+                <Link passHref href='#sectionTwo'>
                     <a onClick={() => {
                         enableScroll()
                         setOpen(!open)
                     }}>Vantagens</a>
                 </Link>
-                <Link href='#sectionThree'>
+                <Link passHref href='#sectionThree'>
                     <a onClick={() => {
                         enableScroll()
                         setOpen(!open)
                     }}>Quem pode?</a>
                 </Link>
-                <Link href='#sectionFour'>
+                <Link passHref href='#sectionFour'>
                     <a onClick={() => {
                         enableScroll()
                         setOpen(!open)

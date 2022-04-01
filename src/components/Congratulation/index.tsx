@@ -26,7 +26,7 @@ const Congratulation: React.FC<IProps> = ({ open, setOpen }) => {
                 setOpen(false)
             }, 3000)
         }
-    }, [open])
+    }, [open, setOpen])
 
     return (
         <ContainerCongratulation open={open}>

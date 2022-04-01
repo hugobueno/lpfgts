@@ -63,7 +63,7 @@ const FormAddress: React.FC<IAddressForm> = ({ setStep, setCurrencyAddress }) =>
         if (address?.cep?.length === 9) {
             handleGetAddressByCep()
         }
-    }, [address?.cep])
+    }, [address?.cep, ])
 
 
 

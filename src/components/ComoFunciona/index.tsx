@@ -50,12 +50,12 @@ const ComoFunciona: React.FC = () => {
                         </Card>
                     </CardsContainer>
                     <div className='row-right'>
-                        <Link href={'/simulacao'}>
+                        <Link passHref href={'/simulacao'}>
                             <ButtonLink aria-label='contrate agora' color={colors.text} backgroundColor={colors.background}>Contrate agora <FiArrowRight /></ButtonLink>
                         </Link>
                     </div>
                     <div className='row-center'>
-                        <Link href="#sectionTwo">
+                        <Link passHref href="#sectionTwo">
                             <ButtonDown aria-label="vantagens"><FiArrowDown /></ButtonDown>
                         </Link>
                     </div>

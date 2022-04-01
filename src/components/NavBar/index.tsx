@@ -34,7 +34,7 @@ const Nav: React.FC = () => {
                     <NavItem>
                         <ul>
                             <li>
-                                <Link href="#">
+                                <Link passHref href="#">
                                     <LinkButton
                                         onClick={() => setActiveButton({
                                             primary: true,
@@ -47,7 +47,7 @@ const Nav: React.FC = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#sectionOne">
+                                <Link passHref href="#sectionOne">
                                     <LinkButton onClick={() => setActiveButton({
                                         primary: false,
                                         secondary: true,
@@ -58,7 +58,7 @@ const Nav: React.FC = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#sectionTwo">
+                                <Link passHref href="#sectionTwo">
                                     <LinkButton
                                         onClick={() => setActiveButton({
                                             primary: false,
@@ -71,7 +71,7 @@ const Nav: React.FC = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#sectionThree">
+                                <Link passHref href="#sectionThree">
                                     <LinkButton
                                         onClick={() => setActiveButton({
                                             primary: false,
@@ -84,7 +84,7 @@ const Nav: React.FC = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#sectionFour">
+                                <Link passHref href="#sectionFour">
                                     <LinkButton
                                         onClick={() => setActiveButton({
                                             primary: false,

@@ -21,7 +21,6 @@ const Vantagens: React.FC = () => {
                     <Image alt="imagem em desenho de uma pessoa se apoiando em uma calculadora" src={ImageCalc} />
                 </div>
                 <div>
-
                     <CardItem>
                         <div>
                             <FiCheckCircle />
@@ -53,8 +52,8 @@ const Vantagens: React.FC = () => {
                 </div>
             </GridRow>
             <div className='row-center'>
-                <Link href={'/simulacao'}>
-                <ButtonLink aria-label='contrate agora' color={colors.text} backgroundColor={colors.primary}>Contrate agora <FiArrowRight /></ButtonLink>
+                <Link passHref href={'/simulacao'}>
+                    <ButtonLink aria-label='contrate agora' color={colors.text} backgroundColor={colors.primary}>Contrate agora <FiArrowRight /></ButtonLink>
                 </Link>
             </div>
         </Container>
