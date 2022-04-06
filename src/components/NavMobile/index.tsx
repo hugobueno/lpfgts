@@ -4,8 +4,8 @@ import { ItensContainer, NavBarContainer } from './styles';
 import Hamburger from 'hamburger-react'
 import { ThemeContext } from 'styled-components';
 import Image from 'next/image';
-import Logo from '/public/assets/logo_virtuos_cred.svg';
-import LogoLight from '/public/assets/logo_virtuos_cred_light.svg';
+import Logo from '/public/assets/logo.png';
+import LogoLight from '/public/assets/logo_light.png';
 import Link from 'next/link';
 import { BsWhatsapp } from 'react-icons/bs';
 import { ToggleButton } from '../../../styles/GlobalComponents';

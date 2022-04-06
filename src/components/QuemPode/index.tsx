@@ -12,7 +12,7 @@ const QuemPode: React.FC = () => {
     <Container id='sectionThree'>
       <DataContainer>
         <Title fontSize={'3.5rem'}>Quem pode contratar?</Title>
-        <Description>Você pode antecipar as próximas 10 parcelas do seu 
+        <Description>Você pode antecipar as próximas 7 parcelas do seu 
           saque-aniversário, desde que o seu saldo FGTS seja superior a R$300,00.
         </Description>
         <CardsContainer>

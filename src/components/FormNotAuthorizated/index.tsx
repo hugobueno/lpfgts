@@ -47,18 +47,18 @@ const FormNotAuthorizated: React.FC<IProps> = ({ dataClient, setStep, setSimulat
             return
         }
 
-        if (status === 400 && data.error === 'Bank not authorized') {
+        if (status === 400 && data.error === 'Operação não autorizada na instituição financeira') {
             setModal({ type: 'warning', title: 'Ops!, falta autorizar um banco', mesage: 'Precisamos que você autorize um de nossos bancos' })
             setStep(activeStep.STEP_NOT_AUTHORIZATE)
             return
         }
 
-        if (status === 400 && data.error === 'Service not authorized') {
+        if (status === 400 && data.error === 'Saque aniversário não aderido') {
             setModal({ type: 'warning', title: 'Você não é optante pelo Saque Aniversario', mesage: 'xxxxxxxxxxxxx' })
             return
         }
 
-        if (status === 400 && data.error === 'Invalid CPF') {
+        if (status === 400 && data.error === 'CPF inválido') {
             setModal({ type: 'warning', title: 'Autorização não efetuada ou Cpf invalido', mesage: 'xxxxxxxxxxxxx' })
             setStep(activeStep.STEP_NOT_AUTHORIZATE)
             return
@@ -69,14 +69,12 @@ const FormNotAuthorizated: React.FC<IProps> = ({ dataClient, setStep, setSimulat
 
     return (
         <AutorizationContainer>
+            <p>Precisamo que Autorize o <strong>Banco Mercantil</strong> no App FGTS</p>
             <div className='row'>
                 <Button onClick={(event) => handleSubmit(event)} color={colors.text} backgroundColor={colors.primary}>Já Autorizei <FiArrowRight /></Button>
-                <Button onClick={() => setStepFgts(true)} color={colors.text} backgroundColor={colors.secundary}>Acesso guia <FiArrowRight /></Button>
+                <Button onClick={() => setStepFgts(true)} color={colors.text} backgroundColor={colors.secundary}>Preciso de Ajuda <FiArrowRight /></Button>
             </div>
-            <p>
-                Caso precise de ajuda para autorizar um Banco,
-                preparamos um passo a passo <strong>simplificado para você</strong>.
-            </p>
+           
         </AutorizationContainer>
     )
 }

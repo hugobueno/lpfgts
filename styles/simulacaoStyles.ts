@@ -170,17 +170,26 @@ export const SimulationList = styled.div`
     
 `;
 
-
+interface ISimulationItem{
+    isSelected: boolean;
+    theme:{
+        colors:{
+            primary: string;
+            background_gray: string;
+            text: string;
+        }
+    }
+}
 
 export const SimulationItem = styled.div`
     display: flex;
     margin: .25rem .5rem .25rem 0;
-    border: .15rem solid ${props => props.theme.colors.border};
+    border: .15rem solid ${(props:ISimulationItem)=> props.isSelected ? props.theme.colors.primary : '#ffffff20'};
     background-color:  ${props => props.theme.colors.background};
     padding: .5rem 1rem;
     border-radius: 1rem;
-    color: ${props => props.theme.colors.text};
-
+    color: ${(props:ISimulationItem)=> props.isSelected ? props.theme.colors.text : '#ffffff50'};
+    cursor: pointer;
     h1{
         font-size: 1.2rem;
         font-weight: 600

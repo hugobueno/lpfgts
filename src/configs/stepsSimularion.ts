@@ -15,7 +15,7 @@ export const stepsToSimulation = [
   {
     title: `
       Precisamos que
-      autorize o Banco PAN no app FGTS
+      autorize o Banco MERCANTIL no app FGTS
       `,
     description: 'siga nosso guia para autorizar um banco.',
     image: Step2,
@@ -41,14 +41,14 @@ export const stepsToSimulation = [
       Agora precisamos
       de alguns dados seus
     `,
-    description: 'A aprovação leva poucos minutos, fique tranquilo (a).',
+    description: 'Já estamos prontos para aprovar o seu saque.',
     image: Step5,
   },
   {
     title: `
       Onde gostaria de receber o valor?
     `,
-    description: 'A aprovação leva poucos minutos, fique tranquilo (a).',
+    description: 'Escolha sua melhor conta bancária.',
     image: Step6,
   },
   {

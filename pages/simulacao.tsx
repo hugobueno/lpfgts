@@ -18,32 +18,34 @@ import Congratulation from '../src/components/Congratulation';
 import HelpAuthFGTS from '../src/components/HelpAuthFGTS';
 
 export interface ISimulation {
-  prazo: number,
-  codigo_tabela_financiamento: string,
-  descricao_tabela_financiamento: string,
-  codigo_produto: string,
-  descricao_produto: string,
-  despesas: [],
-  parcelas: [
-    {
-      num_parcela: number,
-      valor_parcela: number,
-      data_vencimento: string
-    }
-  ],
-  taxa_apropriacao_anual: number,
-  taxa_apropriacao_mensal: number,
-  taxa_cet_anual: number,
-  taxa_cet_mensal: number,
-  taxa_referencia_anual: number,
-  taxa_referencia_mensal: number,
-  valor_bruto: number,
-  valor_cliente: number,
-  valor_financiado: number,
-  valor_solicitado: number,
-  valor_iof: number,
-  valor_liquido: number,
-  tipo_simulacao: 'ValorSolicitado'
+  id: string,
+  valorEmprestimo: number,
+  valorFinanciado: number,
+  valorIof: number,
+  valorTac: number,
+  taxaJurosMes: number,
+  taxaJurosAno: number,
+  dataPrimeiroVencimento:string,
+  dataUltimoVencimento: string,
+  diaVencimentoParcela: number,
+  dataMovimento: string,
+  valorTarifa: number,
+  taxaEfetivaMes: number,
+  taxaEfetivaAno: number,
+  calculoParcelas: IParcela[],
+  valorSomatorioParcelas: number,
+
+}
+
+export interface IParcela{
+  numeroParcela: number,
+  dataParcela: string,
+  valorParcela:number,
+  valorJurosParcela: number,
+  valorTotalParcela: number,
+  valorIof: number,
+  percentualJurosParcela: number,
+  selected: boolean
 }
 
 export const activeStep = {
@@ -59,7 +61,6 @@ export const activeStep = {
 const Simulation: NextPage = () => {
 
   const [step, setStep] = useState<number>(activeStep.STEP_INITIAL || 0)
-
   const { setModal } = useToast()
 
   const [dataClient, setDataClient] = useState<IClient>({
@@ -70,7 +71,6 @@ const Simulation: NextPage = () => {
   const [clientAddress, setClientAddress] = useState<IAddress>()
   const [clientPessoalData, setClientPessoalData] = useState<IPessoa>()
   const [clientDataBank, setClientDataBank] = useState<IBank>()
-  const [linkFormalization, setLinkFormalization] = useState<string>()
   const [congratulation, setCongratulation] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
   const [helpAuth, setHelpAuth] = useState(false)
@@ -79,31 +79,29 @@ const Simulation: NextPage = () => {
     try {
       setModal({ type: 'loading', title: 'Gerando contrato', mesage: 'estamos gerando seu contrato digital' })
       const { data, status } = await api.post('/order', {
-        cpf: dataClient.cpf,
-        phone: dataClient.phone,
-        nome: clientPessoalData?.nome,
-        nascimento: clientPessoalData?.nascimento,
-        mae: clientPessoalData?.mae,
-        documento_rg: clientPessoalData?.documento_rg,
-        banco: dataBank?.banco,
-        agencia: dataBank?.agencia,
-        conta: dataBank?.conta,
-        tipo: dataBank?.tipo.value,
-        logradouro: clientAddress?.logradouro,
-        numero: clientAddress?.numero,
-        bairro: clientAddress?.bairro,
-        cidade: clientAddress?.cidade,
-        uf: clientAddress?.uf,
-        cep: clientAddress?.cep,
+        Cpf: dataClient.cpf,
+        Telefone: dataClient.phone,
+        NumeroDoc: clientPessoalData?.documento_rg,
+        EmissaoDoc:  clientPessoalData?.emissao_rg,
+        TipoDocumento: clientPessoalData?.tipo,
+        OrgaoEmissor  : clientPessoalData?.orgao_emissor,
+        UfOrgaoEmissor : clientPessoalData?.uf_emissor,
+        Banco: dataBank?.banco,
+        Agencia: dataBank?.agencia,
+        NumeroConta: dataBank?.conta,
+        ContaDigito: dataBank?.digito_conta,
+        TipoContaBancaria: dataBank?.tipo,
+        Cep: clientAddress?.cep,
+        NumeroCasa: clientAddress?.numero,
+        Email: clientPessoalData?.email
       }, {
         validateStatus: () => true,
         timeout: 200000
       })
       setIsDisabled(false)
-      if (status === 200) {
-        setModal({ type: 'success', title: 'Contato Gerado', mesage: 'Seu contrato esta pronto' })
+      if (status === 201 && data?.created) {
+        setModal({ type: 'success', title: 'Saque Concluído', mesage: 'O contrato chegará por SMS daqui a pouquinho ta?' })
         setCongratulation(true)
-        setLinkFormalization(data)
         setStep(activeStep.STEP_FORMALIZATION)
         return
       }
@@ -220,7 +218,7 @@ const Simulation: NextPage = () => {
             />
           }
           {step === activeStep.STEP_FORMALIZATION &&
-            <FormLinkFormalization link={linkFormalization || ''} nome={clientPessoalData?.nome || ''}>
+            <FormLinkFormalization >
             </FormLinkFormalization>
           }
         </GridForm>

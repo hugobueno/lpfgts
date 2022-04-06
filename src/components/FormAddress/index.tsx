@@ -7,7 +7,7 @@ import apiCEP from '../../configs/apiCEP';
 import { useToast } from '../../contexts/ToastContext';
 import { clearMask } from '../../utils/masks';
 import InputField from '../InputField';
-import { ContainerStep } from './styles';
+import { AddressData, ContainerStep } from './styles';
 
 export interface IAddress {
     logradouro?: string,
@@ -63,7 +63,7 @@ const FormAddress: React.FC<IAddressForm> = ({ setStep, setCurrencyAddress }) =>
         if (address?.cep?.length === 9) {
             handleGetAddressByCep()
         }
-    }, [address?.cep, ])
+    }, [address?.cep,])
 
 
 
@@ -79,19 +79,14 @@ const FormAddress: React.FC<IAddressForm> = ({ setStep, setCurrencyAddress }) =>
             }}>
             <div className='wrap'>
                 <Title>Dados de endereço</Title>
+
                 <InputField
+                maxLength={9}
                     focus={!address?.cep}
                     mask='cep' title='Cep'
                     value={address?.cep || ''}
                     setValue={(value) => {
                         setAddress({ ...address, cep: value, })
-                    }}
-                />
-                <InputField
-                    title='Endereço'
-                    value={address?.logradouro || ''}
-                    setValue={(value) => {
-                        setAddress({ ...address, logradouro: value, })
                     }}
                 />
                 <InputField
@@ -102,27 +97,35 @@ const FormAddress: React.FC<IAddressForm> = ({ setStep, setCurrencyAddress }) =>
                         setAddress({ ...address, numero: value, })
                     }}
                 />
-                <InputField
-                    title='Cidade'
-                    value={address?.cidade || ''}
-                    setValue={(value) => {
-                        setAddress({ ...address, cidade: value, })
-                    }}
-                />
-                <InputField
-                    title='Uf'
-                    value={address?.uf || ''}
-                    setValue={(value) => {
-                        setAddress({ ...address, uf: value, })
-                    }}
-                />
-
 
                 <Button
                     color={colors.text}
                     backgroundColor={colors.primary}
                     type='submit'
-                    margin='.5rem .5rem .5rem 0'>Continuar <FiArrowRight /></Button>
+                    margin='.5rem .5rem .5rem 0'>Continuar <FiArrowRight />
+                </Button>
+
+                {(address?.cep?.length || 0) > 8 && (
+                    <AddressData>
+                        <div>
+                            <label htmlFor="">Rua</label>
+                            <span>{address?.logradouro} {address?.logradouro}</span>
+                        </div>
+                        <div>
+                            <label htmlFor="">Bairro</label>
+                            <span>{address?.bairro}</span>
+                        </div>
+                        <div>
+                            <label htmlFor="">Cidade</label>
+                            <span>{address?.cidade}</span>
+                        </div>
+                        <div>
+                            <label htmlFor="">UF</label>
+                            <span>{address?.uf}</span>
+                        </div>
+                    </AddressData>
+                )}
+
             </div>
         </ContainerStep>
     )

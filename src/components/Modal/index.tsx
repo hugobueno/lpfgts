@@ -51,7 +51,7 @@ const Modal: React.FC<IModal> = ({ setOpen,
         }
         setModal({ type: 'loading', title: 'Simulando saque', mesage: 'aguarde um momento...' })
 
-        const { data, status } = await handleSimulationFGTS({ ...dataClient, valor_solicitado: currencyValue })
+        const { data, status } = await handleSimulationFGTS({ ...dataClient,  })
         console.log(data, status);
 
         if (status === 200) {

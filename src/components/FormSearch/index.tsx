@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { FormEvent, useContext, useState } from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import { ThemeContext } from 'styled-components';
-import { activeStep, ISimulation } from '../../../pages/simulacao';
+import { activeStep, IParcela, ISimulation } from '../../../pages/simulacao';
 import { Title, Description, Button } from '../../../styles/GlobalComponents';
 import api from '../../configs/api';
 import { useToast } from '../../contexts/ToastContext';
@@ -13,7 +13,7 @@ import { FormContainer } from './styles';
 export interface IClient {
     cpf: string,
     phone: string,
-    valor_solicitado?: string
+    list_parcelas?: IParcela[],
 }
 
 
@@ -36,6 +36,10 @@ const FormSearch: React.FC<IFormSearch> = ({ setStep, setSimulations, setClient 
         event.preventDefault()
         if (!dataClient.cpf || !dataClient.phone) {
             return setModal({ type: 'warning', title: 'Faltam Campos', mesage: 'todos os campos são obrigatórios' })
+        }
+
+        if(dataClient.phone.length < 11){
+            return setModal({ type: 'warning', title: 'Telefone inválido', mesage: 'O telefone deve conter 11 dígitos' })
         }
         setModal({ type: 'loading', title: 'Simulando saque', mesage: 'aguarde um momento...' })
 
@@ -62,20 +66,25 @@ const FormSearch: React.FC<IFormSearch> = ({ setStep, setSimulations, setClient 
             return
         }
 
-        if (status === 400 && data.error === 'Bank not authorized') {
+        if (status === 400 && data.error === 'Operação não autorizada na instituição financeira') {
             setModal({ type: 'warning', title: 'Ops!, falta autorizar um banco', mesage: 'Precisamos que você autorize um de nossos bancos' })
             setStep(activeStep.STEP_NOT_AUTHORIZATE)
             return
         }
 
-        if (status === 400 && data.error === 'Service not authorized') {
-            setModal({ type: 'warning', title: 'Você não é optante pelo Saque Aniversario', mesage: 'xxxxxxxxxxxxx' })
+        if (status === 400 && data.error === 'Saque aniversário não aderido') {
+            setModal({ type: 'warning', title: 'Saque aniversário não aderido', mesage: 'preparamos um tutorial pra você.' })
             return
         }
 
-        if (status === 400 && data.error === 'Invalid CPF') {
+        if (status === 400 && data.error === 'CPF inválido') {
             setModal({ type: 'warning', title: 'Cpf Inválido', mesage: 'Verifique e tente novamente' })
             // setStep(activeStep.STEP_NOT_AUTHORIZATE)
+            return
+        }
+
+        if (status === 400 && data.error === 'Não possui saldo suficiente para realizar a simulação') {
+            setModal({ type: 'warning', title: 'Saldo insuficiente', mesage: 'tente novamente em alguns dias' })
             return
         }
 
@@ -101,7 +110,8 @@ const FormSearch: React.FC<IFormSearch> = ({ setStep, setSimulations, setClient 
                         focus
                         mask='cpf'
                         title='Cpf'
-                        value={dataClient?.cpf || ''}
+                        maxLength={14}
+                        value={dataClient?.cpf.trim() || ''}
                         setValue={(value) => {
                             setDataClient({ ...dataClient, cpf: value, })
                         }}
@@ -109,17 +119,17 @@ const FormSearch: React.FC<IFormSearch> = ({ setStep, setSimulations, setClient 
                     <InputField
                         mask='phone'
                         title='Telefone'
-                        value={dataClient?.phone || ''}
+                        value={dataClient?.phone.trim() || ''}
                         setValue={(value) => {
                             setDataClient({ ...dataClient, phone: value })
                         }}
                     />
                     <div className='terms'>
-                        <Link href="/simulacao/resultado">
-                            <a >Politica de privacidade e termos de uso</a>
+                        <Link passHref  href="/termos">
+                            <a target={'_blank'} >Politica de privacidade e termos de uso</a>
                         </Link>
                     </div>
-                    <Button type='submit' color={colors.text} backgroundColor={colors.primary}>Aceitar e Continuar <FiArrowRight /></Button>
+                    <Button margin='.5rem .5rem .5rem 0' type='submit' color={colors.text} backgroundColor={colors.primary}>Aceitar e Continuar <FiArrowRight /></Button>
                 </form>
             </div>
         </FormContainer>
@@ -133,16 +143,19 @@ export default FormSearch;
 
 export const handleSimulationFGTS = async (dataClient: IClient) => {
     try {
-        const { data, status } = await api.get('/simulacao', {
+        const { data, status } = await api.get('/saldo', {
             params: {
                 cpf: dataClient.cpf,
                 phone: dataClient.phone,
-                valor_solicitado: dataClient.valor_solicitado
+                list_parcelas: JSON.stringify(dataClient.list_parcelas?.map(item => {
+                    return {DataVencimento: item.dataParcela, valor : item.valorTotalParcela }
+                })),
             },
             validateStatus: () => true,
             timeout: 180000
         })
         
+        console.log(data, status);
         
 
         return { data, status }

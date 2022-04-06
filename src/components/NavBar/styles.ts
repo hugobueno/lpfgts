@@ -9,7 +9,7 @@ export const NavContainer = styled.nav`
     /* background-color: ${props => props.theme.colors.background}; */
     justify-content: center;
     align-items: center;
-    border-bottom: .1rem solid ${props => props.theme.colors.border};
+    border-bottom: .1rem solid ${props => props.theme.title === 'light'? props.theme.colors.border : 'transparent'};
     @media only screen and (max-width: 1024px) {
         display: none;
     }

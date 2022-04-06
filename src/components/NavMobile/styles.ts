@@ -7,7 +7,7 @@ export const NavBarContainer = styled.div`
     display: none;
     justify-content: space-between;
     align-items: center;
-    border-bottom: .1rem solid ${props => props.theme.colors.border};
+    border-bottom: .1rem solid ${props => props.theme.title === 'light'? props.theme.colors.border : 'transparent'};
     position: relative;
 
     .logo{

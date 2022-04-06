@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { NavContainer, NavBar, NavItem, LinkButton } from './styles';
 import ImageLog from 'next/image'
 import Link from 'next/link'
-import Logo from '/public/assets/logo_virtuos_cred.svg'
-import LogoLight from '/public/assets/logo_virtuos_cred_light.svg'
+import Logo from '/public/assets/logo.png';
+import LogoLight from '/public/assets/logo_light.png'
 import { useTheme } from '../../contexts/modeContext';
 import { FiToggleLeft, FiToggleRight } from 'react-icons/fi';
 import { ThemeContext } from 'styled-components';

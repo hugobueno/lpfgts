@@ -9,7 +9,7 @@ interface IInputField {
   title: string,
   mask?: 'cep' | 'cpf' | 'phone' | 'date',
   focus?: boolean,
-  type?: 'text' | 'date',
+  type?: 'text' | 'date' | 'email',
   maxLength?: number
 }
 
@@ -29,7 +29,7 @@ const InputField: React.FC<IInputField> = ({ setValue, value, title, mask, focus
   }, [focus])
 
   useEffect(() => {
-      if(value.length === 11 && mask === 'cpf'){
+      if(value.length >= 11 && mask === 'cpf'){
         setTypeInput('text')
         setValue(maskCPF(value))
       }
@@ -52,7 +52,7 @@ const InputField: React.FC<IInputField> = ({ setValue, value, title, mask, focus
 
   return (
     <InputFields >
-      <input maxLength={maxLength} ref={inputRef} value={value} onChange={(event) => {
+      <input  maxLength={maxLength} ref={inputRef} value={value} onChange={(event) => {
         setValue(event.target.value)
       }} name='person_field' type={typeInput} />
       <label className={value ? 'active' : ''} htmlFor="person_field">{title}</label>

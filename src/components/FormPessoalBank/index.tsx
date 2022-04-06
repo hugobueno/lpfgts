@@ -26,7 +26,8 @@ export interface IBank {
     banco?: string,
     agencia?: string,
     conta?: string,
-    tipo?: any,
+    tipo?: "ContaCorrente" | "ContaPoupanca",
+    digito_conta?: string
 }
 
 const FormPessoalBank: React.FC<IFormPessoalBank> = ({ setStep, lock }) => {
@@ -34,7 +35,7 @@ const FormPessoalBank: React.FC<IFormPessoalBank> = ({ setStep, lock }) => {
     const { setModal: Toast } = useToast()
     const animatedComponents = makeAnimated();
     const [dataBank, setDataBank] = useState<IBank>()
-    const isCEF = dataBank?.banco == '104'
+
     const banksList = [
         { value: '104', label: 'Caixa Econômica Federal' },
         { value: '001', label: 'Banco do Brasil' },
@@ -48,19 +49,9 @@ const FormPessoalBank: React.FC<IFormPessoalBank> = ({ setStep, lock }) => {
         { value: '623', label: 'Pan' }
     ]
 
-    const optionsCEF = [
-        { value: '001:CONTA_CORRENTE_INDIVIDUAL', label: '001 - Conta Corrente de Pessoa Física' },
-        { value: '013:CONTA_POUPANCA_INDIVIDUAL', label: '013 – Poupança de Pessoa Física' },
-        { value: '023:CONTA_CORRENTE_INDIVIDUAL', label: '023 – Conta Caixa Fácil' },
-        { value: '037:CONTA_CORRENTE_INDIVIDUAL', label: '037 – Conta Salário' },
-        { value: '002:CONTA_CORRENTE_INDIVIDUAL', label: '002 – Conta Simples de Pessoa Física' },
-        { value: '032:CONTA_CORRENTE_INDIVIDUAL', label: '032 – Conta Investimento Pessoa Física' },
-    ]
-
     const optionsBanks = [
-        { value: 'CONTA_CORRENTE_INDIVIDUAL', label: 'Conta Corrente ' },
-        { value: 'CONTA_POUPANCA_INDIVIDUAL', label: 'Conta Poupança ' },
-        { value: 'CONTA_SALARIO', label: 'Conta Salario ' },
+        { value: 'ContaCorrente', label: 'Conta Corrente ' },
+        { value: 'ContaPoupanca', label: 'Conta Poupança ' },
     ]
 
     return (
@@ -88,7 +79,7 @@ const FormPessoalBank: React.FC<IFormPessoalBank> = ({ setStep, lock }) => {
                     onChange={(option: any) => {
                         if (option) {
 
-                            return setDataBank({ ...dataBank, banco: option.value || '', tipo: null })
+                            return setDataBank({ ...dataBank, banco: option.value || '', })
                         }
                     }}
                 />
@@ -102,10 +93,19 @@ const FormPessoalBank: React.FC<IFormPessoalBank> = ({ setStep, lock }) => {
                 />
 
                 <InputField
-                    title='Conta com digito'
+                    maxLength={15}
+                    title='Conta sem digito'
                     value={dataBank?.conta || ''}
                     setValue={(value) => {
                         setDataBank({ ...dataBank, conta: value, })
+                    }}
+                />
+                 <InputField
+                    maxLength={1}
+                    title='Digito da conta'
+                    value={dataBank?.digito_conta || ''}
+                    setValue={(value) => {
+                        setDataBank({ ...dataBank, digito_conta: value, })
                     }}
                 />
                 <Select
@@ -113,11 +113,11 @@ const FormPessoalBank: React.FC<IFormPessoalBank> = ({ setStep, lock }) => {
                     placeholder="Operacao da Conta"
                     closeMenuOnSelect={true}
                     components={animatedComponents}
-                    options={isCEF ? optionsCEF : optionsBanks}
-                    value={dataBank?.tipo ? [dataBank?.tipo] : []}
+                    options={optionsBanks}
+                    // value={dataBank?.tipo ? [{value: dataBank?.tipo}] : []}
                     onChange={(option: any) => {
                         if (option) {
-                            return setDataBank({ ...dataBank, tipo: option })
+                            return setDataBank({ ...dataBank, tipo: option.value })
                         }
                     }}
                 />

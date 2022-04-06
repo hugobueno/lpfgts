@@ -8,4 +8,9 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
+    
+    svg{
+        font-size: 5rem !important;
+        color: ${props => props.theme.colors.text};
+    }
 `;
